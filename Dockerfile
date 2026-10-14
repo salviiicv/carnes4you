@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Instalar dependencias del sistema y extensiones PHP
+# Instalar dependencias del sistema y extensiones necesarias
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
@@ -28,14 +28,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
-# Desactivar el límite de memoria para Composer durante la instalación
+# Desactivar límite de memoria e instalar omitiendo la verificación de plataforma
 ENV COMPOSER_MEMORY_LIMIT=-1
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs -vvv
 
-# Generar el autoloader optimizado en un paso separado
+# Generar el autoloader optimizado
 RUN composer dump-autoload --optimize --no-dev
 
-# Ajustar permisos para almacenamiento y caché
+# Ajustar permisos para carpetas de almacenamiento
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
