@@ -30,13 +30,16 @@ COPY . .
 
 # Crear la estructura de almacenamiento e instalar dependencias
 ENV COMPOSER_MEMORY_LIMIT=-1
-RUN mkdir -p storage/framework/views storage/framework/sessions storage/framework/cache bootstrap/cache
-RUN composer install --no-dev --no-scripts --prefer-dist --ignore-platform-reqs
+RUN mkdir -p storage/framework/views storage/framework/sessions storage/framework/cache bootstrap/cache database
 
-# Generar el autoloader sin ejecutar scripts automáticos de descubrimiento
+# Crear el archivo sqlite si no existe
+RUN touch database/database.sqlite
+
+# Instalar dependencias y optimizar autoloader
+RUN composer install --no-dev --no-scripts --prefer-dist --ignore-platform-reqs
 RUN composer dump-autoload --optimize --no-dev --no-scripts
 
-# Ajustar permisos para almacenamiento y caché
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Otorgar permisos a la carpeta de almacenamiento y a la base de datos
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 
 EXPOSE 80
