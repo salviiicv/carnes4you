@@ -39,6 +39,9 @@ RUN touch database/database.sqlite
 RUN composer install --no-dev --no-scripts --prefer-dist --ignore-platform-reqs
 RUN composer dump-autoload --optimize --no-dev --no-scripts
 
+# Ejecutar migraciones automáticas
+RUN php artisan migrate --force
+
 # Otorgar permisos a la carpeta de almacenamiento y a la base de datos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 
