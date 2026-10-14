@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Instalar dependencias del sistema y extensiones PHP necesarias para Laravel
+# Instalar dependencias del sistema y extensiones PHP
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
@@ -17,22 +17,25 @@ RUN docker-php-ext-install pdo pdo_sqlite mbstring exif pcntl bcmath gd
 # Activar mod_rewrite de Apache para Laravel
 RUN a2enmod rewrite
 
-# Configurar Apache para que apunte a la carpeta public de Laravel
+# Configurar Apache para apuntar a la carpeta public
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Copiar Composer
+# Copiar Composer desde la imagen oficial
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copiar el código del proyecto al contenedor
 WORKDIR /var/www/html
 COPY . .
 
-# Instalar dependencias con Composer
-RUN composer install --no-dev --optimize-autoloader
+# Desactivar el límite de memoria para Composer durante la instalación
+ENV COMPOSER_MEMORY_LIMIT=-1
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
-# Ajustar permisos para carpetas de almacenamiento
+# Generar el autoloader optimizado en un paso separado
+RUN composer dump-autoload --optimize --no-dev
+
+# Ajustar permisos para almacenamiento y caché
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
