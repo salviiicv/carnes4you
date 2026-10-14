@@ -28,14 +28,15 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
-# Desactivar límite de memoria e instalar omitiendo la verificación de plataforma
+# Crear la estructura de almacenamiento e instalar dependencias
 ENV COMPOSER_MEMORY_LIMIT=-1
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs -vvv
+RUN mkdir -p storage/framework/views storage/framework/sessions storage/framework/cache bootstrap/cache
+RUN composer install --no-dev --no-scripts --prefer-dist --ignore-platform-reqs
 
-# Generar el autoloader optimizado
-RUN composer dump-autoload --optimize --no-dev
+# Generar el autoloader sin ejecutar scripts automáticos de descubrimiento
+RUN composer dump-autoload --optimize --no-dev --no-scripts
 
-# Ajustar permisos para carpetas de almacenamiento
+# Ajustar permisos para almacenamiento y caché
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
