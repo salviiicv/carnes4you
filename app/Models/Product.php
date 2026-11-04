@@ -16,12 +16,14 @@ class Product extends Model
     protected $fillable = [
         'supplier_id',
         'name',
-        'slug',
         'description',
+        'cost_price',
         'price',
+        'stock',
+        'min_quantity',
+        'step_quantity',
+        'unit_type',
         'is_active',
-        'quantity',
-        'minimum_stock',
     ];
 
     public function supplier(): BelongsTo

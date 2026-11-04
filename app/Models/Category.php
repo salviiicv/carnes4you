@@ -13,7 +13,6 @@ class Category extends Model
     protected $fillable = [
         'name',
         'slug',
-        'description',
     ];
 
     public function products(): BelongsToMany
