@@ -19,27 +19,35 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@carnes4you.com'],
-            [
+        $admin = User::where('email', 'admin@carnes4you.com')->first();
+        if (! $admin) {
+            $admin = User::create([
                 'name' => 'Admin',
                 'surname' => 'Carnes4You',
                 'email' => 'admin@carnes4you.com',
+                'role' => 'admin',
                 'pin_code' => '1234',
                 'password' => 'testtest',
-            ]
-        );
+            ]);
+        } else {
+            $admin->role = 'admin';
+            $admin->save();
+        }
 
-        $empleado = User::firstOrCreate(
-            ['email' => 'empleado@carnes4you.com'],
-            [
-            'name' => 'Empleado',
-            'surname' => 'TPV',
-            'email' => 'empleado@carnes4you.com',
-            'pin_code' => '5678',
-            'password' => 'testtest',
-            ]
-        );
+        $empleado = User::where('email', 'empleado@carnes4you.com')->first();
+        if (! $empleado) {
+            $empleado = User::create([
+                'name' => 'Empleado',
+                'surname' => 'TPV',
+                'email' => 'empleado@carnes4you.com',
+                'role' => 'employee',
+                'pin_code' => '5678',
+                'password' => 'testtest',
+            ]);
+        } else {
+            $empleado->role = 'employee';
+            $empleado->save();
+        }
 
         if (User::where('role', 'cliente')->count() === 0) {
             $clientes = User::factory()->count(10)->create(['role' => 'cliente']);
