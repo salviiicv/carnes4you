@@ -20,7 +20,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:employee,admin'])->group(function () {
     Route::get('/tpv', [TpvSessionController::class, 'index'])->name('tpv.index');
-    Route::post('/tpv/abrir', [TpvSessionController::class, 'store'])->name('tpv.store');
+    Route::post('/tpv/abrir', [TpvSessionController::class, 'open'])->name('tpv.open');
+    Route::post('/tpv/cerrar/{id}', [TpvSessionController::class, 'close'])->name('tpv.close');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
