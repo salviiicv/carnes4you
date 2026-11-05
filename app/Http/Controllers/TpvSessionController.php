@@ -59,4 +59,24 @@ class TpvSessionController extends Controller
             'session' => $tpvSession
         ]);
     }
+
+    public function index(Request $request) {
+        $activeSession = TpvSession::whereNull('closed_at')->first();
+        return view('tpv.index', compact('activeSession'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'starting_cash' => 'required|numeric|min:0',
+        ]);
+
+        TpvSession::create([
+            'user_id' => $request->user()->id,
+            'starting_cash' => $request->starting_cash,
+            'opened_at' => now(),
+        ]);
+
+        return redirect()->route('tpv.index');
+    }
 }

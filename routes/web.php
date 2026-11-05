@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TpvSessionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,9 +19,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:employee,admin'])->group(function () {
-    Route::get('/tpv', function () {
-        return 'Zona TPV';
-    });
+    Route::get('/tpv', [TpvSessionController::class, 'index'])->name('tpv.index');
+    Route::post('/tpv/abrir', [TpvSessionController::class, 'store'])->name('tpv.store');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
