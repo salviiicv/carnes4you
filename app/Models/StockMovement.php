@@ -17,6 +17,21 @@ class StockMovement extends Model
         'reason',
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (StockMovement $movement) {
+            $product = $movement->product;
+
+            if ($movement->movement_type === 'in') {
+                $product->stock += $movement->quantity;
+            } elseif ($movement->movement_type === 'out') {
+                $product->stock -= $movement->quantity;
+            }
+
+            $product->save();
+        });
+    }
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
