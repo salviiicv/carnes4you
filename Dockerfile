@@ -45,10 +45,12 @@ RUN composer dump-autoload --optimize --no-dev --no-scripts
 RUN npm install
 RUN npm run build
 
-# Ejecutar migraciones automáticas
-RUN php artisan migrate --force --seed
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Otorgar permisos a la carpeta de almacenamiento y a la base de datos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 
 EXPOSE 80
+
+CMD ["entrypoint.sh"]
