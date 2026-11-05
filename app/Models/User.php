@@ -16,12 +16,21 @@ class User extends Authenticatable
         'name',
         'surname',
         'email',
+        'password',
         'phone',
         'role',
         'pin_code',
         'internal_notes',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+    
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
