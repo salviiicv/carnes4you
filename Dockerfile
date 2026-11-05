@@ -46,7 +46,7 @@ RUN npm install
 RUN npm run build
 
 # Ejecutar migraciones automáticas
-RUN php artisan migrate --force
+RUN php artisan migrate --force --seed
 
 # Otorgar permisos a la carpeta de almacenamiento y a la base de datos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
