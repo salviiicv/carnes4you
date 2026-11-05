@@ -22,7 +22,7 @@ class OrderController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.preparation_type_id' => 'nullable|exists:preparation_types,id',
             'items.*.quantity' => 'required|numeric|min:0.001',
-            'items.*.unit_price' => 'required|numeric|min=0',
+            'items.*.unit_price' => 'required|numeric|min:0',
             'items.*.product_name' => 'required|string',
         ]);
 
