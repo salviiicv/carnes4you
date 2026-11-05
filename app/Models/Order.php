@@ -43,4 +43,11 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function recalculateTotals(): void
+    {
+        $this->subtotal = $this->items()->sum('subtotal');
+        $this->total = $this->subtotal + ($this->shipping_cost ?? 0);
+        $this->save();
+    }
 }

@@ -10,6 +10,8 @@ use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_it_calculates_subtotal_and_total_correctly()
     {
         $user = User::factory()->create();
