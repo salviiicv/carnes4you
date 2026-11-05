@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->decimal('starting_cash', 10, 2)->default(0.00);
             $table->decimal('closing_cash', 10, 2)->nullable();
+            $table->text('notes')->nullable();
 
             $table->timestamps();
         });

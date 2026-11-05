@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             'surname' => 'Carnes4You',
             'email' => 'admin@carnes4you.com',
             'pin_code' => '1234',
+            'password' => 'testtest',
         ]);
 
         $empleado = User::factory()->empleado()->create([
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
             'surname' => 'TPV',
             'email' => 'empleado@carnes4you.com',
             'pin_code' => '5678',
+            'password' => 'testtest',
         ]);
 
         $clientes = User::factory()->count(10)->create(['role' => 'cliente']);

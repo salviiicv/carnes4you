@@ -17,6 +17,7 @@ class TpvSession extends Model
         'closed_at',
         'starting_cash',
         'closing_cash',
+        'notes',
     ];
 
     protected $casts = [

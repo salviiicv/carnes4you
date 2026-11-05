@@ -16,6 +16,7 @@ class UserFactory extends Factory
             'role' => $this->faker->randomElement(['cliente', 'empleado', 'admin']),
             'pin_code' => $this->faker->numerify('####'),
             'internal_notes' => $this->faker->optional(0.2)->sentence(),
+            'password' => 'testtest',
         ];
     }
 
