@@ -29,6 +29,6 @@ class OrderItemTest extends TestCase
             'quantity' => 1.250,
         ]);
 
-        $this->assertEquals(13.33, $item->subtotal);
+        $this->assertEquals(13.13, $item->subtotal);
     }
 }

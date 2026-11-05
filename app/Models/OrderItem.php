@@ -20,6 +20,17 @@ class OrderItem extends Model
         'subtotal',
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function (OrderItem $item) {
+            $item->subtotal = round($item->quantity * $item->unit_price, 2);
+        });
+
+        static::updating(function (OrderItem $item) {
+            $item->subtotal = round($item->quantity * $item->unit_price, 2);
+        });
+    }
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
