@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     libsqlite3-dev
 
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \ && apt-get install -y nodejs
+
 RUN docker-php-ext-install pdo pdo_sqlite mbstring exif pcntl bcmath gd
 
 # Activar mod_rewrite de Apache para Laravel
@@ -38,6 +40,9 @@ RUN touch database/database.sqlite
 # Instalar dependencias y optimizar autoloader
 RUN composer install --no-dev --no-scripts --prefer-dist --ignore-platform-reqs
 RUN composer dump-autoload --optimize --no-dev --no-scripts
+
+RUN npm install
+RUN npm run build
 
 # Ejecutar migraciones automáticas
 RUN php artisan migrate --force
