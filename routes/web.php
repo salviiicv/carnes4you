@@ -6,6 +6,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/login', function () {
+    return 'Página de Login provisional. <br><a hreF="/">Volver al inicio</a>';
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', function () {
         return view('client.dashboard');
