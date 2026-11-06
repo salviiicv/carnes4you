@@ -56,9 +56,7 @@ class DatabaseSeeder extends Seeder
                     'user_id' => $cliente->id,
                 ]);
             }
-        }    
 
-        if (Product::count() === 0) {
             $suppliers = Supplier::factory()->count(5)->create();
 
             $prepTypes = collect(['Fileteado', 'En tacos', 'Picada', 'Pieza entera', 'En brochetas'])->map(fn (string $name) => PreparationType::factory()->create(['name' =>  $name]));
