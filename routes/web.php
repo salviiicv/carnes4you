@@ -30,4 +30,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
+Route::get('/reset-db-secreta', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate.fresh', [
+        '--seed' => true,
+        '--force' => true
+    ]);
+    return 'Base de datos reseteada y poblada con éxito. Ya puedes ir al TPV';
+});
+
 require __DIR__.'/auth.php';
