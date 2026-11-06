@@ -31,7 +31,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 Route::get('/reset-db-secreta', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate.fresh', [
+    \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
         '--seed' => true,
         '--force' => true
     ]);
