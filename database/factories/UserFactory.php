@@ -13,7 +13,7 @@ class UserFactory extends Factory
             'surname' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
-            'role' => $this->faker->randomElement(['cliente', 'empleado', 'admin']),
+            'role' => $this->faker->randomElement(['client', 'employee', 'admin']),
             'pin_code' => $this->faker->numerify('####'),
             'internal_notes' => $this->faker->optional(0.2)->sentence(),
             'password' => 'testtest',
@@ -27,10 +27,10 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function empleado(): static
+    public function employee(): static
     {
         return $this->state(fn (array $attributes) => [
-            'role' => 'empleado',
+            'role' => 'employee',
         ]);
     }
 }

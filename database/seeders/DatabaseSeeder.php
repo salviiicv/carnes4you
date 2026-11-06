@@ -34,19 +34,19 @@ class DatabaseSeeder extends Seeder
             $admin->save();
         }
 
-        $empleado = User::where('email', 'empleado@carnes4you.com')->first();
-        if (! $empleado) {
-            $empleado = User::create([
+        $employee = User::where('email', 'employee@carnes4you.com')->first();
+        if (! $employee) {
+            $employee = User::create([
                 'name' => 'Empleado',
                 'surname' => 'TPV',
-                'email' => 'empleado@carnes4you.com',
+                'email' => 'employee@carnes4you.com',
                 'role' => 'employee',
                 'pin_code' => '5678',
                 'password' => 'testtest',
             ]);
         } else {
-            $empleado->role = 'employee';
-            $empleado->save();
+            $employee->role = 'employee';
+            $employee->save();
         }
 
         if (User::where('role', 'cliente')->count() === 0) {
@@ -79,16 +79,16 @@ class DatabaseSeeder extends Seeder
             }
 
             $closedSession = TpvSession::factory()->closed()->create([
-                'user_id' => $empleado->id,
+                'user_id' => $employee->id,
             ]);
 
             CashMovement::factory()->count(3)->create([
                 'tpv_session_id' => $closedSession->id,
-                'user_id' => $empleado->id,
+                'user_id' => $employee->id,
             ]);
 
             $activeSession = TpvSession::factory()->create([
-                'user_id' => $empleado->id,
+                'user_id' => $employee->id,
                 'opened_at' => now(),
                 'starting_cash' => 150.00,
             ]);
